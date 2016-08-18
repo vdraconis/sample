@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- NMML reference: https://gist.github.com/1763850 -->
+	
+	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
+	<meta title="TestOpenflConverter" package="TestOpenflConverter" version="1.0.0" company="..." />
+	
+	<!-- output -->
+	<app main="Main" file="TestOpenflConverter" path="bin" swf-version="11.6" />
+	
+	<window background="#000000" fps="30"  if="flash"/>
+	<window background="#000000" fps="45"  if="html5"/>
+	<window width="800" height="800" resizable="false" borderless="false" unless="mobile" />
+	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
+	
+	<!-- classpath, haxe libs -->
+	<source path="src" />
+	
+	
+
+	<!-- 
+		<source path="..\fastByteArray\src" />
+	<source path="D:\panda\village-flash\branches\stage3d\libs\hx\fastByteArray\test\src" />
+	-->
+	
+	<source path="..\swfdata\src" />
+	<source path="..\swfdrawer\src" />
+	<source path="..\swfparser\src" />
+	
+	<!-- 
+	<source path="D:\dev\Genome2D\Genome2D-ContextCommon\src" />
+	
+	<source path="D:\dev\Genome2D\Genome2D-ContextFlash\src" if="flash" />
+	<source path="D:\dev\Genome2D\Genome2D-ContextHTML\src" if="js" />
+	<source path="D:\dev\Genome2D\Genome2D-Core\src" />
+	-->
+	
+	<haxelib name="openfl" />
+	<haxelib name="actuate" />
+	<haxelib name="format" />
+
+	
+	
+	
+	<assets path="assets/img" rename="img"/>
+	<assets path="assets/ui" rename="ui"/>
+	<assets path="assets" rename="animation" include="*.animation"/>
+	
+	
+	<haxeflag name="-D webgl"/>
+	
+	<haxedef name="advanced-telemetry" if="flash" />
+	<!-- 
+	<haxeflag name="-dce full" /> 
+	-->
+</project>
