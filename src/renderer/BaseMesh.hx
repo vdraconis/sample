@@ -1,14 +1,15 @@
 package renderer;
 
+import openfl.Vector;
 import openfl.display3D.Context3D;
 import openfl.display3D.IndexBuffer3D;
 import openfl.display3D.VertexBuffer3D;
 
 class BaseMesh
 {
-	public var vertexDataRaw:Array<Float> = new Array<Float>();
-	public var uvDataRaw:Array<Float> = new Array<Float>();
-	public var indexDataRaw:Array<UInt> = new Array<UInt>();
+	public var vertexDataRaw:Vector<Float> = new Vector<Float>();
+	public var uvDataRaw:Vector<Float> = new Vector<Float>();
+	public var indexDataRaw:Vector<UInt> = new Vector<UInt>();
 	
 	public var vertexBuffer:VertexBuffer3D;
 	public var uvBuffer:VertexBuffer3D;

@@ -1,5 +1,9 @@
  package;
 
+import core.external.keyboard.KeyBoardController;
+import core.scenes.PhysicWorldScene;
+import game.scenes.GameScene;
+import nape.util.BitmapDebug;
 import openfl.display.Sprite;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
@@ -7,13 +11,14 @@ import openfl.display3D.Context3DTriangleFace;
 import openfl.events.ErrorEvent;
 import openfl.events.Event;
 import renderer.TextureManager;
-import swfdata.MovieClipData;
-import swfdata.SpriteData;
 
 class Main extends Sprite
 {
 	var context3D:Context3D;
 	var glStage:glStage.Stage;
+	
+	var worldScene:GameScene;
+	var debug:BitmapDebug;
 	
 	public function new() 
 	{
@@ -54,23 +59,28 @@ class Main extends Sprite
 		
 		TextureManager.context = context3D;	
 		
-		var assetsLoader:AssetsLoader = new AssetsLoader();
+		var keyboardController:KeyBoardController = new KeyBoardController(stage);
+		
+		var assetsLoader:AssetsLoader = AssetsLoader.instance;
 		
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		
 		glStage = new glStage.Stage(context3D);
 		
-		var bull:MovieClipData = cast(assetsLoader.linkagesMap["bull_smith"]);
-		bull.play();
+		worldScene = new GameScene(glStage, keyboardController);
 		
-		bull.transform.tx = stage.stageWidth / 2;
-		bull.transform.ty = stage.stageHeight / 2;
-		
-		glStage.addDisplayObject(bull);
+		debug = new BitmapDebug(stage.stageWidth, stage.stageHeight, stage.color, true);
+        addChild(debug.display);
 	}
 	
 	private function onUpdate(e:Event):Void 
 	{
-		glStage.update();
+		worldScene.update();
+		
+		debug.clear();
+		debug.draw(worldScene.space);
+		debug.flush();
+		
+		
 	}
 }

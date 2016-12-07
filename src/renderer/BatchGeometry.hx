@@ -1,12 +1,13 @@
 package renderer;
 
+import openfl.Vector;
 import openfl.display3D.Context3DVertexBufferFormat;
 import openfl.display3D.VertexBuffer3D;
 import openfl.display3D.Context3D;
 
 class BatchGeometry extends BaseMesh
 {
-	public var orderBufferDataRaw:Array<Float> = new Array<Float>();
+	public var orderBufferDataRaw:Vector<Float> = new Vector<Float>();
 	
 	public var orderBuffer:VertexBuffer3D;
 	

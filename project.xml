@@ -17,6 +17,8 @@
 	<source path="src" />
 	
 	
+	
+	
 
 	<!-- 
 		<source path="..\fastByteArray\src" />
@@ -38,7 +40,7 @@
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
 	<haxelib name="format" />
-
+	<haxelib name="nape" />
 	
 	
 	

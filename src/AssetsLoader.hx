@@ -13,8 +13,20 @@ import swfparser.SwfParserLight;
 
 class AssetsLoader
 {
+	static function get_instance():AssetsLoader
+	{
+		if (instance == null)
+			instance = new AssetsLoader();
+			
+		return instance;
+	}
+	
+	@:isVar
+	static public var instance(get, null):AssetsLoader;
+	
 	public var linkagesMap:Map<String, SpriteData> = new Map<String, SpriteData>();
 	public var atlasMap:Map<String, ITextureAtlas> = new Map<String, ITextureAtlas>();
+	
 	
 	public function new() 
 	{
@@ -72,4 +84,6 @@ class AssetsLoader
 			spriteData.atlas = textureAtlas;
 		}
 	}
+	
+	
 }
