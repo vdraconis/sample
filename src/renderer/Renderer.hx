@@ -62,7 +62,7 @@ class Renderer
 		
 		context3D.setProgram(shaderProgramm);
 		drawingGeometry.setToContext(context3D);
-		context3D.setSamplerStateAt(0, Context3DWrapMode.REPEAT, Context3DTextureFilter.LINEAR, Context3DMipFilter.MIPNONE);
+	//	context3D.setSamplerStateAt(0, Context3DWrapMode.REPEAT, Context3DTextureFilter.LINEAR, Context3DMipFilter.MIPNONE);
 		context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, projection, true);
 	}
 	
