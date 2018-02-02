@@ -1,6 +1,10 @@
 package;
 
+import assets.AssetLoader;
+import assets.AssetsStorage;
 import openfl.Assets;
+import openfl.events.Event;
+import openfl.events.EventDispatcher;
 import openfl.text.TextFormat;
 import openfl.utils.ByteArray;
 import openfl.utils.Endian;
@@ -11,22 +15,46 @@ import swfdata.datatags.SwfPackerTag;
 import swfdataexporter.SwfExporter;
 import swfparser.SwfParserLight;
 
-class AssetsLoader
+class AssetsManager extends EventDispatcher
 {
+	var assetsStorage:AssetsStorage;
+	
 	public var linkagesMap:Map<String, SpriteData> = new Map<String, SpriteData>();
 	public var atlasMap:Map<String, ITextureAtlas> = new Map<String, ITextureAtlas>();
 	
 	public function new() 
 	{
+		super();
+		
+		assetsStorage = new AssetsStorage();
+		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
+		assetsLoader.addToQueue("animation/bull_smith.animation");
+		//assetsLoader.addToQueue("animation/bath.animation");
+		//assetsLoader.addToQueue("animation/albion_mirabelle.animation");
+		//assetsLoader.addToQueue("animation/circus.animation");
+		//assetsLoader.addToQueue("animation/amure_lemure.animation");
+		//assetsLoader.addToQueue("animation/valentine2016_kisses.animation");
+		//assetsLoader.addToQueue("animation/chestnut_tree.animation");
+		//assetsLoader.addToQueue("animation/pinetree.animation");
+		//assetsLoader.addToQueue("animation/cypress.animation");	
+		
+		assetsLoader.addEventListener(Event.COMPLETE, onAssetsLoaded);
+		assetsLoader.load();
+	}
+	
+	private function onAssetsLoaded(e:Event):Void 
+	{
 		parseAsset("animation/bull_smith.animation");
-		parseAsset("animation/bath.animation");
-		parseAsset("animation/albion_mirabelle.animation");
-		parseAsset("animation/circus.animation");
-		parseAsset("animation/amure_lemure.animation");
-		parseAsset("animation/valentine2016_kisses.animation");
-		parseAsset("animation/chestnut_tree.animation");
-		parseAsset("animation/pinetree.animation");
-		parseAsset("animation/cypress.animation");	
+		//parseAsset("animation/bath.animation");
+		//parseAsset("animation/albion_mirabelle.animation");
+		//parseAsset("animation/circus.animation");
+		//parseAsset("animation/amure_lemure.animation");
+		//parseAsset("animation/valentine2016_kisses.animation");
+		//parseAsset("animation/chestnut_tree.animation");
+		//parseAsset("animation/pinetree.animation");
+		//parseAsset("animation/cypress.animation");	
+		
+		dispatchEvent(new Event(Event.COMPLETE));
 	}
 	
 	public function createUIAssets():GLTextureAtlas
@@ -56,7 +84,7 @@ class AssetsLoader
 		var swfParserLight:SwfParserLight = new SwfParserLight();
 		var swfTags:Array<SwfPackerTag> = new Array<SwfPackerTag>();
 		
-		var data:ByteArray = Assets.getBytes(path);
+		var data:ByteArray = assetsStorage.getAsset(path).content;
 		data.endian = Endian.LITTLE_ENDIAN;
 		
 		var textureAtlas:GLTextureAtlas = swfExporter.importSwfGL(data, swfParserLight.context.shapeLibrary, swfTags);

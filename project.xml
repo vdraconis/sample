@@ -44,7 +44,7 @@
 	
 	<assets path="assets/img" rename="img"/>
 	<assets path="assets/ui" rename="ui"/>
-	<assets path="assets" rename="animation" include="*.animation"/>
+	<!--<assets path="assets" rename="animation" include="*.animation"/> -->
 	
 	
 	<haxeflag name="-D webgl"/>

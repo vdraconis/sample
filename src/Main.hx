@@ -15,6 +15,8 @@ class Main extends Sprite
 	var context3D:Context3D;
 	var glStage:glStage.Stage;
 	
+	var assetsManager:AssetsManager;
+	
 	public function new() 
 	{
 		super();
@@ -54,13 +56,17 @@ class Main extends Sprite
 		
 		TextureManager.context = context3D;	
 		
-		var assetsLoader:AssetsLoader = new AssetsLoader();
-		
+		assetsManager = new AssetsManager();
+		assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
+	}
+	
+	private function onAssetReady(e:Event):Void 
+	{
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		
 		glStage = new glStage.Stage(context3D);
 		
-		var bull:MovieClipData = cast(assetsLoader.linkagesMap["bull_smith"]);
+		var bull:MovieClipData = cast(assetsManager.linkagesMap["bull_smith"]);
 		bull.play();
 		
 		bull.transform.tx = stage.stageWidth / 2;
