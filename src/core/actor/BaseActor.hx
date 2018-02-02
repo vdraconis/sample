@@ -1,17 +1,18 @@
-package core.actors;
+package core.actor;
 
-import core.actors.ActorView;
-import core.actors.PhysicActorController;
+import core.actor.BaseActorView;
+import core.actor.PhysicActorController;
 import openfl.Vector;
 
-class Actor
+class BaseActor
 {
-	public var actorView:ActorView;
+	public var actorView:BaseActorView;
+	
 	var actorData:BaseActorData;
 	
 	var controllers:Vector<BaseActorController> = new Vector<BaseActorController>();
 	
-	public function new(actorView:ActorView, actorData:BaseActorData) 
+	public function new(actorView:BaseActorView, actorData:BaseActorData) 
 	{
 		this.actorData = actorData;
 		this.actorView = actorView;
@@ -36,6 +37,8 @@ class Actor
 	
 	public function update():Void
 	{
+		actorData.state = ActorStates.IDLE;
+		
 		for (actorController in controllers)
 		{
 			actorController.update();

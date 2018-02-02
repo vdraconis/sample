@@ -1,6 +1,6 @@
-package core.actors;
-import core.actors.ActorView;
-import core.actors.Actor;
+package core.actor;
+import core.actor.BaseActorView;
+import core.actor.BaseActor;
 import nape.geom.Vec2;
 import nape.phys.Body;
 import nape.phys.BodyType;
@@ -15,7 +15,7 @@ class PhysicActorController extends BaseActorController
 		super();
 	}
 	
-	override public function attachTo(actorData:BaseActorData, actorView:ActorView):Void 
+	override public function attachTo(actorData:BaseActorData, actorView:BaseActorView):Void 
 	{
 		super.attachTo(actorData, actorView);
 		

@@ -2,12 +2,12 @@ package core.scenes;
 
 import glStage.Stage;
 import openfl.Vector;
-import core.actors.Actor;
+import core.actor.BaseActor;
 
 class BaseScene
 {
 	var sceneControllers:Vector<BaseSceneController> = new Vector<BaseSceneController>();
-	var actorsList:Vector<Actor> = new Vector<Actor>();
+	var actorsList:Vector<BaseActor> = new Vector<BaseActor>();
 	var stage:Stage;
 	
 	public function new(stage:Stage) 
@@ -15,7 +15,7 @@ class BaseScene
 		this.stage = stage;
 	}
 	
-	public function addActor(actor:Actor):Void
+	public function addActor(actor:BaseActor):Void
 	{
 		actorsList.push(actor);
 		stage.addDisplayObject(actor.actorView.spriteData);

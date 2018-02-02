@@ -147,8 +147,8 @@ class Scene extends BaseLayer
 		var rx:Float = (v1 + v2);
 		var ry:Float = (v2 - v1);
 		
-		TEMP_POINT.x = (Std.int(rx) | 0) + (rx < 0 ? -1 : 0);
-		TEMP_POINT.y = (Std.int(ry) | 0) + (ry < 0 ? -1 : 0);
+		TEMP_POINT.x = (Std.int(rx) | 0) + (rx < 0 ? -10);
+		TEMP_POINT.y = (Std.int(ry) | 0) + (ry < 0 ? -10);
 		
 		return TEMP_POINT;
 	}

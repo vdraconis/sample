@@ -1,16 +1,16 @@
-package core.actors;
+package core.actor;
 
 class BaseActorController
 {
 	var actorData:BaseActorData;
-	var actorView:ActorView;
+	var actorView:BaseActorView;
 
 	public function new() 
 	{
 		
 	}
 	
-	public function attachTo(actorData:BaseActorData, actorView:ActorView):Void
+	public function attachTo(actorData:BaseActorData, actorView:BaseActorView):Void
 	{
 		this.actorView = actorView;
 		this.actorData = actorData;

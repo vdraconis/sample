@@ -8,7 +8,7 @@
 	<!-- output -->
 	<app main="Main" file="TestOpenflConverter" path="bin" swf-version="11.6" />
 	
-	<window background="#000000" fps="30"  if="flash"/>
+	<window background="#000000" fps="60"  if="flash"/>
 	<window background="#000000" fps="45"  if="html5"/>
 	<window width="800" height="800" resizable="false" borderless="false" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />

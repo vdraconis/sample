@@ -1,5 +1,4 @@
-package core.actors;
-
+package core.actor;
 
 class BaseActorData
 {

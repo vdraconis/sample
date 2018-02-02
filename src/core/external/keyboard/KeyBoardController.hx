@@ -45,13 +45,13 @@ class KeyBoardController
         stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
     }
     
-    public function destroy() : Void
+    public function destroy():Void
     {
         stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
         stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyUp);
     }
     
-    private function prevent(e : KeyboardEvent) : Void
+    private function prevent(e:KeyboardEvent):Void
     {
         if (preventedKeys.exists(e.keyCode))
             e.preventDefault();
@@ -76,9 +76,9 @@ class KeyBoardController
         }
     }
     
-    private function onKeyDown(e : KeyboardEvent) : Void
+    private function onKeyDown(e:KeyboardEvent):Void
     {
-        var code : Int = e.keyCode;
+        var code:Int = e.keyCode;
         prevent(e);
         
         if (passedKeys.exists(code))
@@ -114,22 +114,22 @@ class KeyBoardController
         }
     }
     
-    public function registerKeyDownReaction(key : Int, reaction : Function) : Void
+    public function registerKeyDownReaction(key:Int, reaction:Function):Void
     {
         keyDownListeners.registerListener(key, reaction);
     }
     
-    public function unregisterKeyDownReaction(key : Int, reaction : Function) : Void
+    public function unregisterKeyDownReaction(key:Int, reaction:Function):Void
     {
         keyDownListeners.unregisterListener(key, reaction);
     }
     
-    public function registerKeyUpReaction(key : Int, reaction : Function) : Void
+    public function registerKeyUpReaction(key:Int, reaction:Function):Void
     {
         keyUpListeners.registerListener(key, reaction);
     }
     
-    public function unregiterKeyUpReaction(key : Int, reaction : Function) : Void
+    public function unregiterKeyUpReaction(key:Int, reaction:Function):Void
     {
         keyUpListeners.unregisterListener(key, reaction);
     }

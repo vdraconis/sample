@@ -1,5 +1,5 @@
 package core.scenes;
-import core.actors.Actor;
+import core.actor.BaseActor;
 
 
 class BaseSceneController
@@ -10,7 +10,7 @@ class BaseSceneController
 		
 	}
 	
-	public function onActorAdd(actor:Actor):Void
+	public function onActorAdd(actor:BaseActor):Void
 	{
 		
 	}

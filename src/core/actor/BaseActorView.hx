@@ -1,8 +1,8 @@
-package core.actors;
+package core.actor;
 
 import swfdata.SpriteData;
 
-class ActorView
+class BaseActorView
 {
 	var actorData:BaseActorData;
 	public var spriteData:SpriteData;

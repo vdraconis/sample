@@ -1,9 +1,9 @@
 package game.character;
 
-import core.actors.ActorStates;
-import core.actors.BaseActorData;
+import core.actor.ActorStates;
+import core.actor.mobiles.BaseMobileData;
 
-class CharacterData extends BaseActorData
+class CharacterData extends BaseMobileData
 {
 	public function new() 
 	{

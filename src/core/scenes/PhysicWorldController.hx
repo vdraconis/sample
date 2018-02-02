@@ -1,7 +1,7 @@
 package core.scenes;
 
-import core.actors.Actor;
-import core.actors.PhysicActorController;
+import core.actor.BaseActor;
+import core.actor.PhysicActorController;
 import core.scenes.BaseSceneController;
 import nape.space.Space;
 
@@ -17,7 +17,7 @@ class PhysicWorldController extends BaseSceneController
 		
 	}
 	
-	override public function onActorAdd(actor:Actor):Void 
+	override public function onActorAdd(actor:BaseActor):Void 
 	{
 		super.onActorAdd(actor);
 		

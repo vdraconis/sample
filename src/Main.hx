@@ -67,7 +67,7 @@ class Main extends Sprite
 		
 		glStage = new glStage.Stage(context3D);
 		
-		worldScene = new GameScene(glStage, keyboardController);
+		worldScene = new GameScene(glStage, stage, keyboardController);
 		
 		debug = new BitmapDebug(stage.stageWidth, stage.stageHeight, stage.color, true);
         addChild(debug.display);
