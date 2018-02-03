@@ -33,7 +33,13 @@ class Stage extends DisplayObjectContainer
 		
 		for (spriteData in _displayObjects)
 		{
+			if (!spriteData.visible) continue;
+			
 			movieClipDrawer.atlas = spriteData.atlas;
+			
+			drawingMatrix.tx = spriteData.x;
+			drawingMatrix.ty = spriteData.y;
+			
 			movieClipDrawer.drawDisplayObject(spriteData, drawingMatrix, drawingBound);
 		}
 		

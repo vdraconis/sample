@@ -16,6 +16,7 @@ class Main extends Sprite
 	var glStage:glStage.Stage;
 	
 	var assetsManager:AssetsManager;
+	var bull:MovieClipData;
 	
 	public function new() 
 	{
@@ -66,17 +67,20 @@ class Main extends Sprite
 		
 		glStage = new glStage.Stage(context3D);
 		
-		var bull:MovieClipData = cast(assetsManager.linkagesMap["bull_smith"]);
+		bull = cast(assetsManager.linkagesMap["bull_smith"]);
 		bull.play();
 		
-		bull.transform.tx = stage.stageWidth / 2;
-		bull.transform.ty = stage.stageHeight / 2;
+		bull.x = stage.stageWidth / 2;
+		bull.y = stage.stageHeight / 2;
 		
 		glStage.addDisplayObject(bull);
 	}
 	
 	private function onUpdate(e:Event):Void 
 	{
+		bull.x = mouseX;
+		bull.y = mouseY;
+		
 		glStage.update();
 	}
 }
