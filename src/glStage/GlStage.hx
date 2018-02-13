@@ -117,6 +117,7 @@ class GlStage extends DisplayObjectContainer
 			}
 			
 			drawer.atlas = spriteData.atlas;
+			renderer.atlas = cast spriteData.atlas;
 			
 			if (isCheckDrawingBounds)
 			{

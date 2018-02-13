@@ -63,10 +63,9 @@ class Main extends Sprite
 	}
 	
 	private function onAssetReady(e:Event):Void 
-	{
-		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
-		
+	{	
 		glStage = new GlStage(stage, context3D);
+		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		
 		bull = cast(assetsManager.linkagesMap["x1_0"]);
 		bull.play();

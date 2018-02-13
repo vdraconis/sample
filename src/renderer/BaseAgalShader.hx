@@ -89,16 +89,23 @@ class BaseAgalShader
 			"add vt0.xy, vt0.xy, vc6.xy	\n" +
 
 			"mov v0, vt0 \n"+
-			"mov v1, vc7";
+			"mov v1, vc7 \n"+
+			"mov v2, vc8";
 	}
 	
 	public function getFragmentCode():String
 	{
 		return 
-				"tex 	ft0		v0			fs0	<2d, clamp, linear>	\n"	
-			+	"mul	ft0		ft0			v1						\n"
-			//+	"mul	ft0		ft0			fc0 		\n"
-			+	"mov	oc		ft0						  ";
+				  "tex 	ft0			v0			fs0		<2d, clamp, linear>	\n"
+				+ "max	ft0			ft0			fc1							\n"
+				+ "div	ft0.xyz		ft0.xyz		ft0.www						\n"
+				+ "mul	ft0			ft0			v1							\n"
+				+ "add	ft0			ft0			v2							\n"
+				+ "mul	ft0.xyz		ft0.xyz		ft0.www						\n"
+				+ "sub	ft1.w		ft0.w		fc0.w						\n"
+				+ "kil	ft1.w												\n"
+				+ "mov	oc			ft0									  "; 
+				//+	"m44	ft0			ft0			fc1						\n"  ;
 	}
 	
 }

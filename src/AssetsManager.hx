@@ -76,7 +76,6 @@ class AssetsManager extends EventDispatcher
 		return atlasGenerator.createGlAtlas();
 	}
 	
-	
 	@:access(swfdata)
 	private function parseAsset(path:String) 
 	{

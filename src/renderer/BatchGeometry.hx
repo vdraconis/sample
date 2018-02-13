@@ -11,7 +11,9 @@ class BatchGeometry extends BaseMesh
 	
 	public var orderBuffer:VertexBuffer3D;
 	
-	public function new(batchSize:Int) 
+	public var uploaded:Bool = false;
+	
+	public function new(batchSize:Int, registersPerGeometry:Int) 
 	{
 		super();
 		
@@ -36,7 +38,7 @@ class BatchGeometry extends BaseMesh
 			indexDataRaw[indexDataIndex++] = 4 * i;	indexDataRaw[indexDataIndex++] = 4 * i + 1;	indexDataRaw[indexDataIndex++] = 4 * i + 2;
 			indexDataRaw[indexDataIndex++] = 4 * i;	indexDataRaw[indexDataIndex++] = 4 * i + 2;	indexDataRaw[indexDataIndex++] = 4 * i + 3;
 			
-			order = 4 + (i * 4);
+			order = 4 + (i * registersPerGeometry);
 			
 			orderBufferDataRaw[orderDataIndex++] = order;	//orderBufferDataRaw[orderDataIndex++] = order;
 			orderBufferDataRaw[orderDataIndex++] = order;	//orderBufferDataRaw[orderDataIndex++] = order;
@@ -48,6 +50,8 @@ class BatchGeometry extends BaseMesh
 	override public function uploadToGpu(context3D:Context3D):Void 
 	{
 		super.uploadToGpu(context3D);
+		
+		uploaded = true;
 		
 		var verticesCount:Int = Std.int(vertexDataRaw.length / 3);
 		
