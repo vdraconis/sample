@@ -1,5 +1,6 @@
  package;
 
+import glStage.GlStage;
 import openfl.display.Sprite;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
@@ -13,7 +14,7 @@ import swfdata.SpriteData;
 class Main extends Sprite
 {
 	var context3D:Context3D;
-	var glStage:glStage.Stage;
+	var glStage:GlStage;
 	
 	var assetsManager:AssetsManager;
 	var bull:MovieClipData;
@@ -65,22 +66,27 @@ class Main extends Sprite
 	{
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		
-		glStage = new glStage.Stage(context3D);
+		glStage = new GlStage(stage, context3D);
 		
-		bull = cast(assetsManager.linkagesMap["bull_smith"]);
+		bull = cast(assetsManager.linkagesMap["x1_0"]);
 		bull.play();
 		
 		bull.x = stage.stageWidth / 2;
 		bull.y = stage.stageHeight / 2;
 		
 		glStage.addDisplayObject(bull);
+		
+		bull = cast bull.clone();
+		bull.stop();
+		
+		bull.x = stage.stageWidth / 2 - 150;
+		bull.y = stage.stageHeight / 2;
+		
+		glStage.addDisplayObject(bull);
 	}
 	
 	private function onUpdate(e:Event):Void 
-	{
-		bull.x = mouseX;
-		bull.y = mouseY;
-		
+	{	
 		glStage.update();
 	}
 }

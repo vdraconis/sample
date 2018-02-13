@@ -28,7 +28,7 @@ class AssetsManager extends EventDispatcher
 		
 		assetsStorage = new AssetsStorage();
 		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
-		assetsLoader.addToQueue("animation/bull_smith.animation");
+		assetsLoader.addToQueue("animation/biker.ani");
 		//assetsLoader.addToQueue("animation/bath.animation");
 		//assetsLoader.addToQueue("animation/albion_mirabelle.animation");
 		//assetsLoader.addToQueue("animation/circus.animation");
@@ -44,7 +44,7 @@ class AssetsManager extends EventDispatcher
 	
 	private function onAssetsLoaded(e:Event):Void 
 	{
-		parseAsset("animation/bull_smith.animation");
+		parseAsset("animation/biker.ani");
 		//parseAsset("animation/bath.animation");
 		//parseAsset("animation/albion_mirabelle.animation");
 		//parseAsset("animation/circus.animation");

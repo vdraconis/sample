@@ -57,7 +57,7 @@ class Renderer
 	
 	public function begin()
 	{
-		context3D.clear();
+		context3D.clear(0.5, 0.5, 0.5);
 		currentTexture = null;
 		
 		context3D.setProgram(shaderProgramm);
@@ -138,10 +138,10 @@ class Renderer
 		drawingList[drawingListSize++] = texture.uscale;
 		drawingList[drawingListSize++] = texture.vscale;
 		
-		drawingList[drawingListSize++] = colorData.r;
-		drawingList[drawingListSize++] = colorData.g;
-		drawingList[drawingListSize++] = colorData.b;
-		drawingList[drawingListSize++] = colorData.a;
+		drawingList[drawingListSize++] = 1; //colorData.r;
+		drawingList[drawingListSize++] = 1; //colorData.g;
+		drawingList[drawingListSize++] = 1; //colorData.b;
+		drawingList[drawingListSize++] = 1; //colorData.a;
 	}
 	
 	@:access(swfdata)
