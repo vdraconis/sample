@@ -175,6 +175,9 @@ class Renderer
     
     public function render()
     {
+		if (atlas == null)
+			return;
+			
 		setTexture(atlas.gpuData, context3D);
 		
         var triangleToRegisterRate:Float = 2 / registersPerGeometry;
@@ -184,7 +187,7 @@ class Renderer
         {
             var currentDrawingList:DrawingList = drawingList[i];
             if (currentDrawingList == null)
-				return;
+				return; 
 				
 			var quadsNum:Int = Std.int(currentDrawingList.length / 16);
 			

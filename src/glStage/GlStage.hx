@@ -1,6 +1,7 @@
 package glStage;
 
 import gl.drawer.GLDisplayListDrawer;
+import openfl.display.Graphics;
 import openfl.display.Stage;
 import openfl.display3D.Context3D;
 import openfl.events.MouseEvent;
@@ -27,15 +28,21 @@ class GlStage extends DisplayObjectContainer
 	var handleMouse:Bool = false;
 	var clickPosition:Point = new Point();
 	
-	public function new(stage:Stage, context3D:Context3D) 
+	var debugCanvas:Graphics;
+	
+	public function new(stage:Stage, debugCanvas:Graphics, context3D:Context3D) 
 	{
 		super();
+		
+		this.debugCanvas = debugCanvas;
 		
 		this.stage = stage;
 		mouseData = new MouseData();
 		renderer = new Renderer(context3D);
 		drawer = new GLDisplayListDrawer(null, mouseData.mousePosition);
 		drawer.target = renderer;
+		drawer.debugConvas = debugCanvas;
+		drawer.debugDraw = true;
 		
 		stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
@@ -80,6 +87,9 @@ class GlStage extends DisplayObjectContainer
 	override public function update():Void
 	{
 		var isCheckDrawingBounds:Bool = false;
+		
+		if (debugCanvas != null)
+			debugCanvas.clear();
 		
 		if (handleMouse)
 			onMouseMove();

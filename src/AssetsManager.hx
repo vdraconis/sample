@@ -68,6 +68,7 @@ class AssetsManager extends EventDispatcher
 		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_sliderVertical.png", true), textureID++);
 		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_sliderHorizontal.png", true), textureID++);
 		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_sliderRight.png", true), textureID++);
+		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_button15.png", true), textureID++);
 		
 		var format:TextFormat = new TextFormat("Verdana", 12, 0x333333, false);
 		atlasGenerator.addText("Morning", format, textureID++);

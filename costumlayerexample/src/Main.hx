@@ -55,7 +55,6 @@ class Main extends Sprite
 		context3D.configureBackBuffer(stage.stageWidth, stage.stageHeight, 0, true);
 		context3D.setCulling(Context3DTriangleFace.NONE);
 		
-		context3D.enableErrorChecking = true;
 		context3D.setDepthTest(true, Context3DCompareMode.ALWAYS);
 		
 		TextureManager.context = context3D;	
