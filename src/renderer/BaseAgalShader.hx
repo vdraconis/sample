@@ -1,5 +1,7 @@
 package renderer;
 
+import gl.program.DrawerShader;
+import gl.program.GLSLProgram;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DProgramType;
 import openfl.display3D.Program3D;
@@ -24,10 +26,14 @@ class BaseAgalShader
 	{
 		var program = context.createProgram();
 		
-		if (!isCompiled)
-			compile();
+		var shader = new DrawerShader();
+		var glProgram = new GLSLProgram(context);
+		glProgram.useProgram(program, shader);
+		
+		//if (!isCompiled)
+		//	compile();
 			
-		program.upload(vertexData, fragmentData);
+		//program.upload(vertexData, fragmentData);
 		
 		return program;
 	}
