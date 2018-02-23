@@ -72,21 +72,25 @@ class Main extends Sprite
 		glStage = new GlStage(stage, context3D);
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		
-		bull = cast(assetsManager.linkagesMap["x1_0"]);
-		bull.play();
-		
-		bull.x = stage.stageWidth / 2;
-		bull.y = stage.stageHeight / 2;
-		
-		glStage.addDisplayObject(bull);
-		
-		bull = cast bull.clone();
-		bull.stop();
-		
-		bull.x = stage.stageWidth / 2 - 150;
-		bull.y = stage.stageHeight / 2;
-		
-		glStage.addDisplayObject(bull);
+		var _x = 350;
+		var _y = 400;
+		for (displayObject in assetsManager.linkagesMap)
+		{
+			displayObject.x = _x;
+			displayObject.y = _y;
+			
+			//displayObject.transform.scale(4, 4);
+			
+			_x += 50;
+			
+			if (_x + 50 > stage.stageWidth)
+			{
+				_x = 50;
+				_y += 100;
+			}
+			
+			glStage.addDisplayObject(displayObject);
+		}
 	}
 	
 	private function onUpdate(e:Event):Void 
