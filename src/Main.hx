@@ -11,6 +11,7 @@ import renderer.TextureManager;
 import swfdata.MovieClipData;
 import swfdata.SpriteData;
 
+@:access(openfl.display3D.Context3D)
 class Main extends Sprite
 {
 	var context3D:Context3D;
@@ -50,6 +51,10 @@ class Main extends Sprite
 	private function onContextCreated(e:Event):Void 
 	{
 		context3D = stage.stage3Ds[0].context3D;
+		
+		@:privateAccess context3D.__vertexConstants = new lime.utils.Float32Array(4 * 204);
+		@:privateAccess context3D.__fragmentConstants = new lime.utils.Float32Array(4 * 204);
+		
 		context3D.configureBackBuffer(stage.stageWidth, stage.stageHeight, 0, true);
 		context3D.setCulling(Context3DTriangleFace.NONE);
 		

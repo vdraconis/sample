@@ -21,14 +21,14 @@ class Renderer
     public var alphaThreshold(get, set):Float;
 
     static inline var DEFAULT_THRESHOLD:Float = 0.1;
-    static inline var MAX_VERTEX_CONSTANTS:Int = 128;  //may change in different profiles  
+    static inline var MAX_VERTEX_CONSTANTS:Int = 204;  //may change in different profiles  
     
     static var registersPerGeometry:Int = 5;
     static var batchRegistersSize:Int = (MAX_VERTEX_CONSTANTS - 4);
     static var batchConstantsSize:Int = batchRegistersSize * 4;
     static var batchSize:Int = Std.int(batchRegistersSize / registersPerGeometry);
     
-    static var drawingGeometry:BatchGeometry = new BatchGeometry(1, registersPerGeometry);// batchSize, registersPerGeometry);
+    static var drawingGeometry:BatchGeometry = new BatchGeometry(batchSize, registersPerGeometry);
     
     static var blendModes:Vector<BlendMode> = BlendMode.getBlendModesList();
     
@@ -185,21 +185,15 @@ class Renderer
             var currentDrawingList:DrawingList = drawingList[i];
             if (currentDrawingList == null)
 				return;
-				
-			var quadsNum:Int = Std.int(currentDrawingList.length / 16);
 			
-			for (j in 0...quadsNum) 
-			{
-				var registersSize:Int = currentDrawingList.registersSize;
-				var trianglesNum:Int = Std.int(registersSize * triangleToRegisterRate);
-				
-				var blendMode:BlendMode = blendModes[currentDrawingList.blendMode];
-				context3D.setBlendFactors(blendMode.src, blendMode.dst);
-				
-				var offset:Int = Std.int(j * 20);
-				context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, currentDrawingList.data.slice(offset, offset + 20), 20);
-				context3D.drawTriangles(drawingGeometry.indexBuffer);// , 0, trianglesNum);
-			}
+			var registersSize:Int = currentDrawingList.registersSize;
+			var trianglesNum:Int = Std.int(registersSize * triangleToRegisterRate);
+			
+			var blendMode:BlendMode = blendModes[currentDrawingList.blendMode];
+			context3D.setBlendFactors(blendMode.src, blendMode.dst);
+			
+			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, currentDrawingList.data, currentDrawingList.data.length);
+			context3D.drawTriangles(drawingGeometry.indexBuffer, 0, trianglesNum);
 			
 			currentDrawingList.clear();
         }
