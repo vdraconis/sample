@@ -1,5 +1,6 @@
 package;
 
+import AtlasGenerator;
 import assets.AssetLoader;
 import assets.AssetsStorage;
 import openfl.Assets;
@@ -8,9 +9,10 @@ import openfl.events.EventDispatcher;
 import openfl.text.TextFormat;
 import openfl.utils.ByteArray;
 import openfl.utils.Endian;
+import renderer.TextureManager;
 import swfdata.SpriteData;
 import swfdata.atlas.GLTextureAtlas;
-import swfdata.atlas.ITextureAtlas;
+import swfdata.atlas.TextureStorage;
 import swfdata.datatags.SwfPackerTag;
 import swfdataexporter.SwfExporter;
 import swfparser.SwfParserLight;
@@ -18,13 +20,17 @@ import swfparser.SwfParserLight;
 class AssetsManager extends EventDispatcher
 {
 	var assetsStorage:AssetsStorage;
+	var textureSotrage:TextureStorage;
+	var textureManager:TextureManager;
 	
 	public var linkagesMap:Map<String, SpriteData> = new Map<String, SpriteData>();
-	public var atlasMap:Map<String, ITextureAtlas> = new Map<String, ITextureAtlas>();
 	
-	public function new() 
+	public function new(textureSotrage:TextureStorage, textureManager:TextureManager) 
 	{
 		super();
+		
+		this.textureManager = textureManager;
+		this.textureSotrage = textureSotrage;
 		
 		assetsStorage = new AssetsStorage();
 		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
@@ -79,14 +85,14 @@ class AssetsManager extends EventDispatcher
 	@:access(swfdata)
 	private function parseAsset(path:String) 
 	{
-		var swfExporter:SwfExporter = new SwfExporter();
+		var swfExporter:SwfExporter = new SwfExporter(textureSotrage, textureManager);
 		var swfParserLight:SwfParserLight = new SwfParserLight();
 		var swfTags:Array<SwfPackerTag> = new Array<SwfPackerTag>();
 		
 		var data:ByteArray = assetsStorage.getAsset(path).content;
 		data.endian = Endian.LITTLE_ENDIAN;
 		
-		var textureAtlas:GLTextureAtlas = swfExporter.importSwfGL(data, swfParserLight.context.shapeLibrary, swfTags);
+		swfExporter.importSwfGL(data, swfParserLight.context.shapeLibrary, swfTags);
 		
 		swfParserLight.context.library.addShapes(swfParserLight.context.shapeLibrary);
 		swfParserLight.processDisplayObject(swfTags);
@@ -94,9 +100,6 @@ class AssetsManager extends EventDispatcher
 		for (spriteData in swfParserLight.context.library.linkagesList)
 		{
 			linkagesMap[spriteData.libraryLinkage] = spriteData;
-			atlasMap[spriteData.libraryLinkage] = textureAtlas;
-			
-			spriteData.atlas = textureAtlas;
 		}
 	}
 }

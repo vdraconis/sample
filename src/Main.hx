@@ -1,6 +1,6 @@
- package;
+package;
 
-import glStage.GlStage;
+import gl.GlStage;
 import openfl.display.Sprite;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
@@ -9,7 +9,7 @@ import openfl.events.ErrorEvent;
 import openfl.events.Event;
 import renderer.TextureManager;
 import swfdata.MovieClipData;
-import swfdata.SpriteData;
+import swfdata.atlas.TextureStorage;
 
 @:access(openfl.display3D.Context3D)
 class Main extends Sprite
@@ -61,15 +61,17 @@ class Main extends Sprite
 		context3D.enableErrorChecking = true;
 		context3D.setDepthTest(true, Context3DCompareMode.ALWAYS);
 		
-		TextureManager.context = context3D;	
+		var textureManager:TextureManager = new TextureManager(context3D);
+		var textureStorage:TextureStorage = new TextureStorage();
 		
-		assetsManager = new AssetsManager();
+		glStage = new GlStage(stage, context3D, textureStorage);
+		
+		assetsManager = new AssetsManager(textureStorage, textureManager);
 		assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
 	}
 	
 	private function onAssetReady(e:Event):Void 
 	{	
-		glStage = new GlStage(stage, context3D);
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		
 		var _x = 350;
