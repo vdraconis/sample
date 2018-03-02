@@ -58,7 +58,10 @@ class Main extends Sprite
 		context3D.configureBackBuffer(stage.stageWidth, stage.stageHeight, 0, true);
 		context3D.setCulling(Context3DTriangleFace.NONE);
 		
-		context3D.enableErrorChecking = true;
+		#if debug
+			context3D.enableErrorChecking = true;
+		#end
+		
 		context3D.setDepthTest(true, Context3DCompareMode.ALWAYS);
 		
 		var textureManager:TextureManager = new TextureManager(context3D);
@@ -74,8 +77,8 @@ class Main extends Sprite
 	{	
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		
-		var _x = 350;
-		var _y = 400;
+		var _x = 50;
+		var _y = 125;
 		for (displayObject in assetsManager.linkagesMap)
 		{
 			displayObject.x = _x;

@@ -35,6 +35,7 @@ class AssetsManager extends EventDispatcher
 		assetsStorage = new AssetsStorage();
 		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
 		assetsLoader.addToQueue("animation/biker.ani");
+		assetsLoader.addToQueue("animation/teslagirl.ani");
 		//assetsLoader.addToQueue("animation/bath.animation");
 		//assetsLoader.addToQueue("animation/albion_mirabelle.animation");
 		//assetsLoader.addToQueue("animation/circus.animation");
@@ -51,6 +52,7 @@ class AssetsManager extends EventDispatcher
 	private function onAssetsLoaded(e:Event):Void 
 	{
 		parseAsset("animation/biker.ani");
+		parseAsset("animation/teslagirl.ani");
 		//parseAsset("animation/bath.animation");
 		//parseAsset("animation/albion_mirabelle.animation");
 		//parseAsset("animation/circus.animation");
@@ -99,7 +101,7 @@ class AssetsManager extends EventDispatcher
 		
 		for (spriteData in swfParserLight.context.library.linkagesList)
 		{
-			linkagesMap[spriteData.libraryLinkage] = spriteData;
+			linkagesMap[spriteData.libraryLinkage + path] = spriteData;
 		}
 	}
 }
