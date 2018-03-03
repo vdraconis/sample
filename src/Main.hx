@@ -7,6 +7,7 @@ import openfl.display3D.Context3DCompareMode;
 import openfl.display3D.Context3DTriangleFace;
 import openfl.events.ErrorEvent;
 import openfl.events.Event;
+import renderer.Renderer;
 import renderer.TextureManager;
 import swfdata.MovieClipData;
 import swfdata.atlas.TextureStorage;
@@ -52,15 +53,15 @@ class Main extends Sprite
 	{
 		context3D = stage.stage3Ds[0].context3D;
 		
-		@:privateAccess context3D.__vertexConstants = new lime.utils.Float32Array(4 * 204);
-		@:privateAccess context3D.__fragmentConstants = new lime.utils.Float32Array(4 * 204);
+		@:privateAccess context3D.__vertexConstants = new lime.utils.Float32Array(4 * Renderer.MAX_VERTEX_CONSTANTS);
+		@:privateAccess context3D.__fragmentConstants = new lime.utils.Float32Array(4 * Renderer.MAX_VERTEX_CONSTANTS);
 		
 		context3D.configureBackBuffer(stage.stageWidth, stage.stageHeight, 0, true);
 		context3D.setCulling(Context3DTriangleFace.NONE);
 		
-		#if debug
-			context3D.enableErrorChecking = true;
-		#end
+		//#if debug
+		//	context3D.enableErrorChecking = true;
+		//#end
 		
 		context3D.setDepthTest(true, Context3DCompareMode.ALWAYS);
 		
