@@ -22,6 +22,8 @@ class AssetsManager extends EventDispatcher
 	var assetsStorage:AssetsStorage;
 	var textureSotrage:TextureStorage;
 	var textureManager:TextureManager;
+	var swfExporter:SwfExporter;
+	var swfParserLight:SwfParserLight;
 	
 	public var linkagesMap:Map<String, SpriteData> = new Map<String, SpriteData>();
 	
@@ -36,7 +38,7 @@ class AssetsManager extends EventDispatcher
 		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
 		assetsLoader.addToQueue("animation/a.ani");
 		assetsLoader.addToQueue("animation/biker.ani");
-		//assetsLoader.addToQueue("animation/teslagirl.ani");
+		assetsLoader.addToQueue("animation/teslagirl.ani");
 		//assetsLoader.addToQueue("animation/bath.animation");
 		//assetsLoader.addToQueue("animation/albion_mirabelle.animation");
 		//assetsLoader.addToQueue("animation/circus.animation");
@@ -46,6 +48,8 @@ class AssetsManager extends EventDispatcher
 		//assetsLoader.addToQueue("animation/pinetree.animation");
 		//assetsLoader.addToQueue("animation/cypress.animation");	
 		
+		
+		
 		assetsLoader.addEventListener(Event.COMPLETE, onAssetsLoaded);
 		assetsLoader.load();
 	}
@@ -54,7 +58,7 @@ class AssetsManager extends EventDispatcher
 	{
 		parseAsset("animation/a.ani");
 		parseAsset("animation/biker.ani");
-		//parseAsset("animation/teslagirl.ani");
+		parseAsset("animation/teslagirl.ani");
 		//parseAsset("animation/bath.animation");
 		//parseAsset("animation/albion_mirabelle.animation");
 		//parseAsset("animation/circus.animation");
@@ -89,9 +93,11 @@ class AssetsManager extends EventDispatcher
 	@:access(swfdata)
 	private function parseAsset(path:String) 
 	{
-		var swfExporter:SwfExporter = new SwfExporter(textureSotrage, textureManager);
-		var swfParserLight:SwfParserLight = new SwfParserLight();
-		var swfTags:Array<SwfPackerTag> = new Array<SwfPackerTag>();
+		var swfTags = new Array<SwfPackerTag>();
+		
+		//TODO: need to reuse swfExporter and parser and use CLEAR instead of making new instance everytime
+		swfExporter = new SwfExporter(textureSotrage, textureManager);
+		swfParserLight = new SwfParserLight();
 		
 		var data:ByteArray = assetsStorage.getAsset(path).content;
 		data.endian = Endian.LITTLE_ENDIAN;
@@ -105,5 +111,6 @@ class AssetsManager extends EventDispatcher
 		{
 			linkagesMap[spriteData.libraryLinkage + path] = spriteData;
 		}
+		
 	}
 }
