@@ -1,5 +1,9 @@
- package;
+package;
 
+import renderer.Renderer;
+import gl.GlStage;
+import motion.Actuate;
+import motion.easing.Linear;
 import openfl.display.Sprite;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
@@ -7,13 +11,14 @@ import openfl.display3D.Context3DTriangleFace;
 import openfl.events.ErrorEvent;
 import openfl.events.Event;
 import renderer.TextureManager;
+import swfdata.atlas.TextureStorage;
 import swfdata.MovieClipData;
-import swfdata.SpriteData;
 
+@:access(openfl.display3D.Context3D)
 class Main extends Sprite
 {
 	var context3D:Context3D;
-	var glStage:glStage.Stage;
+	var glStage:GlStage;
 	
 	var assetsManager:AssetsManager;
 	var bull:MovieClipData;
@@ -49,38 +54,74 @@ class Main extends Sprite
 	private function onContextCreated(e:Event):Void 
 	{
 		context3D = stage.stage3Ds[0].context3D;
+		
+		@:privateAccess context3D.__vertexConstants = new lime.utils.Float32Array(4 * Renderer.MAX_VERTEX_CONSTANTS);
+		@:privateAccess context3D.__fragmentConstants = new lime.utils.Float32Array(4 * Renderer.MAX_VERTEX_CONSTANTS);
+
+		stage.addEventListener(Event.RESIZE, onResize);
 		context3D.configureBackBuffer(stage.stageWidth, stage.stageHeight, 0, true);
 		context3D.setCulling(Context3DTriangleFace.NONE);
 		
-		context3D.enableErrorChecking = true;
+		//#if debug
+		//	context3D.enableErrorChecking = true;
+		//#end
+		
 		context3D.setDepthTest(true, Context3DCompareMode.ALWAYS);
 		
-		TextureManager.context = context3D;	
+		var textureManager:TextureManager = new TextureManager(context3D);
+		var textureStorage:TextureStorage = new TextureStorage();
 		
-		assetsManager = new AssetsManager();
+		glStage = new GlStage(stage, context3D, textureStorage);
+		
+		assetsManager = new AssetsManager(textureStorage, textureManager);
 		assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
 	}
 	
-	private function onAssetReady(e:Event):Void 
+	private function onResize(e:Event):Void {
+		context3D.configureBackBuffer(stage.stageWidth, stage.stageHeight, 0, true);
+	}
+
+	private function onAssetReady(e:Event):Void
 	{
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
+		var back = new swfdata.DisplayObjectContainer();
 		
-		glStage = new glStage.Stage(context3D);
-		
-		bull = cast(assetsManager.linkagesMap["bull_smith"]);
-		bull.play();
-		
-		bull.x = stage.stageWidth / 2;
-		bull.y = stage.stageHeight / 2;
-		
-		glStage.addDisplayObject(bull);
+		var _x = 50;
+		var _y = 125;
+		for (displayObject in assetsManager.linkagesMap)
+		{
+			displayObject.x = _x;
+			displayObject.y = _y;
+			
+			//displayObject.transform.scale(4, 4);
+			
+			_x += 50;
+			
+			if (_x + 50 > stage.stageWidth)
+			{
+				_x = 50;
+				_y += 100;
+			}
+			var onCompleteTween:Dynamic;
+
+			onCompleteTween = function(_){
+				Actuate
+				.tween(displayObject, Math.random() * 10,{
+					x: Math.random()* stage.stageWidth,
+					y: Math.random()* stage.stageHeight
+				})
+				.ease(Linear.easeNone)
+				.onComplete(onCompleteTween);
+			};
+
+			onCompleteTween();
+			
+			glStage.addDisplayObject(displayObject);
+		}
 	}
 	
 	private function onUpdate(e:Event):Void 
-	{
-		bull.x = mouseX;
-		bull.y = mouseY;
-		
+	{	
 		glStage.update();
 	}
 }

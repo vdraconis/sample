@@ -12,7 +12,7 @@ class AssetLoader extends EventDispatcher
 {
 	var loadQue:Array<String> = [];
 	
-	var binaryTypes:Array<String> = ["animation", "ppx", "jpg", "jpeg", "png"];
+	var binaryTypes:Array<String> = ["animation", "ani", "ppx", "jpg", "jpeg", "png"];
 	
 	var currentLoading:String;
 	
@@ -77,7 +77,7 @@ class AssetLoader extends EventDispatcher
 		return value.substr(extensionPosition, value.length - extensionPosition);
 	}
 	
-	private function loadComplete(e:AssetDataEvent):Void 
+	function loadComplete(e:AssetDataEvent):Void 
 	{
 		filesLoaded++;
 		

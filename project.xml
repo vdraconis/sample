@@ -8,8 +8,8 @@
 	<!-- output -->
 	<app main="Main" file="TestOpenflConverter" path="bin" swf-version="11.2" />
 	
-	<window background="#000000" fps="30"  if="flash"/>
-	<window background="#000000" fps="45"  if="html5"/>
+	<window background="#CCCCCC" fps="60"  if="flash"/>
+	<window background="#CCCCCC" fps="60"  if="html5"/>
 	<window width="800" height="800" resizable="false" borderless="false" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
@@ -24,8 +24,6 @@
 	-->
 	
 	<source path="..\swfdata\src" />
-	<source path="..\swfdrawer\src" />
-	<source path="..\swfparser\src" />
 	
 	<!-- 
 	<source path="D:\dev\Genome2D\Genome2D-ContextCommon\src" />
@@ -44,7 +42,7 @@
 	
 	<assets path="assets/img" rename="img"/>
 	<assets path="assets/ui" rename="ui"/>
-	<!--<assets path="assets" rename="animation" include="*.animation"/> -->
+	<assets path="assets" rename="animation" include="*.animation|*.ani"/>
 	
 	
 	<haxeflag name="-D webgl"/>

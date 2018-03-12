@@ -1,5 +1,6 @@
 package;
 
+import AtlasGenerator;
 import assets.AssetLoader;
 import assets.AssetsStorage;
 import openfl.Assets;
@@ -8,9 +9,10 @@ import openfl.events.EventDispatcher;
 import openfl.text.TextFormat;
 import openfl.utils.ByteArray;
 import openfl.utils.Endian;
+import renderer.TextureManager;
 import swfdata.SpriteData;
 import swfdata.atlas.GLTextureAtlas;
-import swfdata.atlas.ITextureAtlas;
+import swfdata.atlas.TextureStorage;
 import swfdata.datatags.SwfPackerTag;
 import swfdataexporter.SwfExporter;
 import swfparser.SwfParserLight;
@@ -18,17 +20,25 @@ import swfparser.SwfParserLight;
 class AssetsManager extends EventDispatcher
 {
 	var assetsStorage:AssetsStorage;
+	var textureSotrage:TextureStorage;
+	var textureManager:TextureManager;
 	
 	public var linkagesMap:Map<String, SpriteData> = new Map<String, SpriteData>();
-	public var atlasMap:Map<String, ITextureAtlas> = new Map<String, ITextureAtlas>();
 	
-	public function new() 
+	public function new(textureSotrage:TextureStorage, textureManager:TextureManager) 
 	{
 		super();
 		
+		this.textureManager = textureManager;
+		this.textureSotrage = textureSotrage;
+		
 		assetsStorage = new AssetsStorage();
 		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
-		assetsLoader.addToQueue("animation/bull_smith.animation");
+		assetsLoader.addToQueue("animation/tank.ani");
+		assetsLoader.addToQueue("animation/a.ani");
+		assetsLoader.addToQueue("animation/x.ani");
+		assetsLoader.addToQueue("animation/biker.ani");
+		assetsLoader.addToQueue("animation/teslagirl.ani");
 		//assetsLoader.addToQueue("animation/bath.animation");
 		//assetsLoader.addToQueue("animation/albion_mirabelle.animation");
 		//assetsLoader.addToQueue("animation/circus.animation");
@@ -44,7 +54,11 @@ class AssetsManager extends EventDispatcher
 	
 	private function onAssetsLoaded(e:Event):Void 
 	{
-		parseAsset("animation/bull_smith.animation");
+		parseAsset("animation/tank.ani");
+		parseAsset("animation/biker.ani");
+		parseAsset("animation/teslagirl.ani");
+		parseAsset("animation/a.ani");
+		parseAsset("animation/x.ani");
 		//parseAsset("animation/bath.animation");
 		//parseAsset("animation/albion_mirabelle.animation");
 		//parseAsset("animation/circus.animation");
@@ -76,28 +90,24 @@ class AssetsManager extends EventDispatcher
 		return atlasGenerator.createGlAtlas();
 	}
 	
-	
 	@:access(swfdata)
 	private function parseAsset(path:String) 
 	{
-		var swfExporter:SwfExporter = new SwfExporter();
+		var swfExporter:SwfExporter = new SwfExporter(textureSotrage, textureManager);
 		var swfParserLight:SwfParserLight = new SwfParserLight();
 		var swfTags:Array<SwfPackerTag> = new Array<SwfPackerTag>();
 		
 		var data:ByteArray = assetsStorage.getAsset(path).content;
 		data.endian = Endian.LITTLE_ENDIAN;
 		
-		var textureAtlas:GLTextureAtlas = swfExporter.importSwfGL(data, swfParserLight.context.shapeLibrary, swfTags);
+		swfExporter.importSwfGL(data, swfParserLight.context.shapeLibrary, swfTags);
 		
 		swfParserLight.context.library.addShapes(swfParserLight.context.shapeLibrary);
 		swfParserLight.processDisplayObject(swfTags);
 		
 		for (spriteData in swfParserLight.context.library.linkagesList)
 		{
-			linkagesMap[spriteData.libraryLinkage] = spriteData;
-			atlasMap[spriteData.libraryLinkage] = textureAtlas;
-			
-			spriteData.atlas = textureAtlas;
+			linkagesMap[spriteData.libraryLinkage + path] = spriteData;
 		}
 	}
 }
