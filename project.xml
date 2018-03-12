@@ -45,9 +45,14 @@
 	<assets path="assets" rename="animation" include="*.animation|*.ani"/>
 	
 	
+	<!---><haxeflag name="-D textureFromBytes"/><!---->
 	<haxeflag name="-D webgl"/>
+	<!----> <haxeflag name="-D webgl1"/> <!---->
 	
 	<haxedef name="advanced-telemetry" if="flash" />
+	<!-- 
+	<haxedef name="no-inline"/>
+	-->
 	<!-- 
 	<haxeflag name="-dce full" /> 
 	-->

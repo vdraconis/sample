@@ -1,18 +1,16 @@
 package;
 
-import renderer.Renderer;
 import gl.GlStage;
-import motion.Actuate;
-import motion.easing.Linear;
 import openfl.display.Sprite;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
 import openfl.display3D.Context3DTriangleFace;
 import openfl.events.ErrorEvent;
 import openfl.events.Event;
+import renderer.Renderer;
 import renderer.TextureManager;
-import swfdata.atlas.TextureStorage;
 import swfdata.MovieClipData;
+import swfdata.atlas.TextureStorage;
 
 @:access(openfl.display3D.Context3D)
 class Main extends Sprite
@@ -57,8 +55,7 @@ class Main extends Sprite
 		
 		@:privateAccess context3D.__vertexConstants = new lime.utils.Float32Array(4 * Renderer.MAX_VERTEX_CONSTANTS);
 		@:privateAccess context3D.__fragmentConstants = new lime.utils.Float32Array(4 * Renderer.MAX_VERTEX_CONSTANTS);
-
-		stage.addEventListener(Event.RESIZE, onResize);
+		
 		context3D.configureBackBuffer(stage.stageWidth, stage.stageHeight, 0, true);
 		context3D.setCulling(Context3DTriangleFace.NONE);
 		
@@ -77,14 +74,9 @@ class Main extends Sprite
 		assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
 	}
 	
-	private function onResize(e:Event):Void {
-		context3D.configureBackBuffer(stage.stageWidth, stage.stageHeight, 0, true);
-	}
-
-	private function onAssetReady(e:Event):Void
-	{
+	private function onAssetReady(e:Event):Void 
+	{	
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
-		var back = new swfdata.DisplayObjectContainer();
 		
 		var _x = 50;
 		var _y = 125;
@@ -102,19 +94,6 @@ class Main extends Sprite
 				_x = 50;
 				_y += 100;
 			}
-			var onCompleteTween:Dynamic;
-
-			onCompleteTween = function(_){
-				Actuate
-				.tween(displayObject, Math.random() * 10,{
-					x: Math.random()* stage.stageWidth,
-					y: Math.random()* stage.stageHeight
-				})
-				.ease(Linear.easeNone)
-				.onComplete(onCompleteTween);
-			};
-
-			onCompleteTween();
 			
 			glStage.addDisplayObject(displayObject);
 		}
