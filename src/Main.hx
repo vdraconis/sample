@@ -90,12 +90,14 @@ class Main extends Sprite
 		
 		var _x = 50;
 		var _y = 125;
+
+		for(i in 0...10)
 		for (displayObject in assetsManager.linkagesMap)
 		{
+			if (i > 0)
+				displayObject = cast displayObject.clone();
 			displayObject.x = _x;
 			displayObject.y = _y;
-			
-			//displayObject.transform.scale(4, 4);
 			
 			_x += 50;
 			
@@ -106,6 +108,12 @@ class Main extends Sprite
 			}
 
             addTween(displayObject);
+            if (Std.is(displayObject, MovieClipData)) {
+               var mc: MovieClipData = cast displayObject;
+                // TODO кажется что-то случилось)
+                //mc.gotoAndPlay(Std.int(Math.random() * mc.timeline.framesCount - 1));
+                //mc.gotoAndPlay(0);
+            }
 			
 			glStage.addDisplayObject(displayObject);
 		}
