@@ -50,9 +50,9 @@
 	<!----> <haxeflag name="-D webgl1"/> <!---->
 	
 	<haxedef name="advanced-telemetry" if="flash" />
-	<!-- 
+	<!---->
 	<haxedef name="no-inline"/>
-	-->
+	<!---->
 	<!-- 
 	<haxeflag name="-dce full" /> 
 	-->

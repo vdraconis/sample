@@ -2,6 +2,7 @@ package;
 
 import motion.easing.Linear;
 import motion.Actuate;
+import openfl.text.TextField;
 import swfdata.DisplayObjectData;
 import gl.GlStage;
 import openfl.display.Sprite;
@@ -14,6 +15,7 @@ import renderer.Renderer;
 import renderer.TextureManager;
 import swfdata.MovieClipData;
 import swfdata.atlas.TextureStorage;
+import utils.DisplayObjectUtils;
 
 @:access(openfl.display3D.Context3D)
 class Main extends Sprite
@@ -77,7 +79,8 @@ class Main extends Sprite
 		glStage = new GlStage(stage, context3D, textureStorage);
 		
 		assetsManager = new AssetsManager(textureStorage, textureManager);
-		assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
+		//assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
+		onAssetReady(null);
 	}
 
     private function onResize(e:Event):Void {
@@ -90,12 +93,14 @@ class Main extends Sprite
 		
 		var _x = 50;
 		var _y = 125;
+		
+		assetsManager.createUIAssets();
 
 		for(i in 0...10)
 		for (displayObject in assetsManager.linkagesMap)
 		{
 			if (i > 0)
-				displayObject = cast displayObject.clone();
+				displayObject = displayObject.clone();
 			displayObject.x = _x;
 			displayObject.y = _y;
 			
@@ -108,8 +113,9 @@ class Main extends Sprite
 			}
 
             addTween(displayObject);
-            if (Std.is(displayObject, MovieClipData)) {
-               var mc: MovieClipData = cast displayObject;
+			
+			var mc = DisplayObjectUtils.asMovieClip(displayObject); //for common types not DisplayObject types use Lang.as - return null or type; Lang.as2 - return object or type
+            if (mc != null) {
                 // TODO кажется что-то случилось)
                 //mc.gotoAndPlay(Std.int(Math.random() * mc.timeline.framesCount - 1));
                 //mc.gotoAndPlay(0);
@@ -117,6 +123,10 @@ class Main extends Sprite
 			
 			glStage.addDisplayObject(displayObject);
 		}
+		
+		var tf = new TextField();
+		tf.text = "TEST";
+		addChild(tf);
 	}
 
     private function addTween(displayObject:DisplayObjectData):Void {
