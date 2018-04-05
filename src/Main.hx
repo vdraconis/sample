@@ -13,6 +13,7 @@ import flash.text.TextField;
 import openfl.events.MouseEvent;
 import motion.easing.Linear;
 import motion.Actuate;
+import openfl.text.TextField;
 import swfdata.DisplayObjectData;
 import gl.GlStage;
 import openfl.display.Sprite;
@@ -25,6 +26,7 @@ import renderer.Renderer;
 import renderer.TextureManager;
 import swfdata.MovieClipData;
 import swfdata.atlas.TextureStorage;
+import utils.DisplayObjectUtils;
 
 @:access(openfl.display3D.Context3D)
 class Main extends Sprite
@@ -101,7 +103,8 @@ class Main extends Sprite
 		glStage = new GlStage(stage, context3D, textureStorage);
 		
 		assetsManager = new AssetsManager(textureStorage, textureManager);
-		assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
+		//assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
+		onAssetReady(null);
 	}
 
     private function onResize(e:Event):Void {
@@ -112,20 +115,16 @@ class Main extends Sprite
 	{
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		stage.addEventListener(MouseEvent.CLICK, clickHandler);
-
-
-		var _bg = new SpriteData(0, new Rectangle(0, 0, 1024, 1024));
-		_bg.atl
-		glStage.addDisplayObject(_bg);
-
+		assetsManager.createUIAssets();
 	}
 
 	private function clickHandler(_):Void {
 		var _x = 50;
 		var _y = 125;
+
 		for (displayObject in assetsManager.linkagesMap)
 		{
-			displayObject = cast displayObject.clone();
+            displayObject = displayObject.clone();
 			displayObject.x = _x;
 			displayObject.y = _y;
 
@@ -137,7 +136,7 @@ class Main extends Sprite
 				_y += 100;
 			}
 
-			addTween(displayObject);
+            addTween(displayObject);
 			glStage.addDisplayObject(displayObject);
 		}
 		_tf.text =  "Click on the screen to add an animation\ncount: " + Std.string(glStage.numChildren);

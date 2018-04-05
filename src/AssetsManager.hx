@@ -4,14 +4,20 @@ import AtlasGenerator;
 import assets.AssetLoader;
 import assets.AssetsStorage;
 import openfl.Assets;
+import openfl.display.BitmapData;
+import openfl.display3D.Context3DTextureFormat;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
-import openfl.text.TextFormat;
+import openfl.geom.Matrix;
+import openfl.geom.Rectangle;
 import openfl.utils.ByteArray;
 import openfl.utils.Endian;
 import renderer.TextureManager;
+import swfdata.DisplayObjectData;
+import swfdata.ShapeData;
 import swfdata.SpriteData;
-import swfdata.atlas.GLTextureAtlas;
+import swfdata.atlas.TextureId;
+import swfdata.atlas.TextureSource;
 import swfdata.atlas.TextureStorage;
 import swfdata.datatags.SwfPackerTag;
 import swfdataexporter.SwfExporter;
@@ -25,7 +31,9 @@ class AssetsManager extends EventDispatcher
 	var swfExporter:SwfExporter;
 	var swfParserLight:SwfParserLight;
 	
-	public var linkagesMap:Map<String, SpriteData> = new Map<String, SpriteData>();
+	var atlasGenerator:AtlasGenerator = new AtlasGenerator();
+	
+	public var linkagesMap:Map<String, DisplayObjectData> = new Map<String, DisplayObjectData>();
 	
 	public function new(textureSotrage:TextureStorage, textureManager:TextureManager) 
 	{
@@ -36,11 +44,9 @@ class AssetsManager extends EventDispatcher
 		
 		assetsStorage = new AssetsStorage();
 		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
-		assetsLoader.addToQueue("animation/a.ani");
-		assetsLoader.addToQueue("animation/biker.ani");
-		//assetsLoader.addToQueue("animation/tank.ani");
-		assetsLoader.addToQueue("animation/teslagirl.ani");
-		assetsLoader.addToQueue("animation/x.ani");
+		//assetsLoader.addToQueue("animation/a.ani");
+		//assetsLoader.addToQueue("animation/biker.ani");
+		//assetsLoader.addToQueue("animation/teslagirl.ani");
 		//assetsLoader.addToQueue("animation/bath.animation");
 		//assetsLoader.addToQueue("animation/albion_mirabelle.animation");
 		//assetsLoader.addToQueue("animation/circus.animation");
@@ -53,16 +59,14 @@ class AssetsManager extends EventDispatcher
 		
 		
 		assetsLoader.addEventListener(Event.COMPLETE, onAssetsLoaded);
-		assetsLoader.load();
+		//assetsLoader.load();
 	}
 	
 	private function onAssetsLoaded(e:Event):Void 
 	{
-		//parseAsset("animation/tank.ani");
-		parseAsset("animation/biker.ani");
-		parseAsset("animation/teslagirl.ani");
-		parseAsset("animation/a.ani");
-		parseAsset("animation/x.ani");
+		//parseAsset("animation/a.ani");
+		//parseAsset("animation/biker.ani");
+		//parseAsset("animation/teslagirl.ani");
 		//parseAsset("animation/bath.animation");
 		//parseAsset("animation/albion_mirabelle.animation");
 		//parseAsset("animation/circus.animation");
@@ -75,23 +79,57 @@ class AssetsManager extends EventDispatcher
 		dispatchEvent(new Event(Event.COMPLETE));
 	}
 	
-	public function createUIAssets():GLTextureAtlas
+	public function createCustomAtlas(width:Int, height:Int):TextureSource
 	{
-		var atlasGenerator:AtlasGenerator = new AtlasGenerator(1024, 1024);
+		var atlasData:BitmapData = new BitmapData(width, height, true, 0x0);
+		var textureSource = new TextureSource(atlasData, width, height, textureManager);
+		
+		return textureSource;
+	}
+	
+	public function uploadAtlasData(textureSource:TextureSource)
+	{
+		textureSource.createGlData(Context3DTextureFormat.BGRA);
+		textureSource.uploadToGpu();
+	}
+	
+	public function switchAtlas(bitmapData:BitmapData)
+	{
+		atlasGenerator.setBitmapData(bitmapData);
+	}
+	
+	public function createCustomSprite(atlasID:Int, textureId:Int, textureSource:TextureSource, spriteData:BitmapData, scaleX:Float = 1, scaleY:Float = 1)
+	{
+		var combinedTextureId = new TextureId(atlasID, textureId);
+		atlasGenerator.addTexture(textureSotrage, combinedTextureId, textureSource, spriteData, textureId, scaleX, scaleY);
+		
+		var shape = new ShapeData(combinedTextureId, new Rectangle(0, 0, spriteData.width, spriteData.height));
+		shape.transform = new Matrix();
+		
+		linkagesMap["shape:"+combinedTextureId.toString()] = shape;
+		
+		return shape;
+	}
+	
+	public function createUIAssets()
+	{
+		var textureSoruce = createCustomAtlas(1024, 1024);
+		var atlasID = textureSotrage.getNextTextureId();
 		var textureID:Int = 0;
+		switchAtlas(textureSoruce.source);
 		
-		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_sliderEnd.png", true), textureID++);
-		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_sliderUp.png", true), textureID++, 0.5, 0.5);
-		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_circle.png", true), textureID++);
-		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_sliderVertical.png", true), textureID++);
-		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_sliderHorizontal.png", true), textureID++);
-		atlasGenerator.addSubTexture(Assets.getBitmapData("ui/grey_sliderRight.png", true), textureID++);
+		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderUp.png", true), 0.5, 0.5);
+		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderEnd.png", true));
+		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_circle.png", true));
+		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderVertical.png", true));
+		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderHorizontal.png", true));
+		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderRight.png", true));
 		
-		var format:TextFormat = new TextFormat("Verdana", 12, 0x333333, false);
-		atlasGenerator.addText("Morning", format, textureID++);
-		atlasGenerator.addText("Midnight", format, textureID++);
+		uploadAtlasData(textureSoruce);
 		
-		return atlasGenerator.createGlAtlas();
+		//var format:TextFormat = new TextFormat("Verdana", 12, 0x333333, false);
+		//atlasGenerator.addText("Morning", format, textureID++);
+		//atlasGenerator.addText("Midnight", format, textureID++);
 	}
 	
 	@:access(swfdata)
