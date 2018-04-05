@@ -1,5 +1,16 @@
 package;
 
+import swfdata.SpriteData;
+import swfdata.ShapeData;
+import openfl.geom.Rectangle;
+import openfl.display.FPS;
+import by.blooddy.core.display.resource.ResourceDefinition;
+import by.blooddy.core.display.resource.ResourceDefinition;
+import ru.riot.display.gui.control.GUIDummy;
+import ru.riot.display.gui.styles.FontStyles;
+import ru.riot.display.gui.control.helpers.LabelHelper;
+import flash.text.TextField;
+import openfl.events.MouseEvent;
 import motion.easing.Linear;
 import motion.Actuate;
 import swfdata.DisplayObjectData;
@@ -22,7 +33,7 @@ class Main extends Sprite
 	var glStage:GlStage;
 	
 	var assetsManager:AssetsManager;
-	var bull:MovieClipData;
+	var _tf:TextField;
 	
 	public function new() 
 	{
@@ -44,6 +55,19 @@ class Main extends Sprite
 		stage.stage3Ds[0].addEventListener(Event.CONTEXT3D_CREATE, onContextCreated);
 		stage.stage3Ds[0].addEventListener(ErrorEvent.ERROR, onContextCreatedError);
 		stage.stage3Ds[0].requestContext3D("auto");
+
+		_tf  = LabelHelper.createLabel(FontStyles.getDynamicOpenSans(12, 0xFFFFFF));
+		_tf.x = 10;
+		_tf.y = 5;
+		_tf.width = 1000;
+		_tf.multiline = true;
+		_tf.height = 100;
+		_tf.text = "Click on the screen to add an animation\n";
+		stage.addChild(_tf);
+
+		var _fps = new FPS(10,10,0xffffff);
+		_fps.y = 40;
+		stage.addChild(_fps);
 	}
 	
 	private function onContextCreatedError(e:ErrorEvent):Void 
@@ -85,38 +109,38 @@ class Main extends Sprite
     }
 
     private function onAssetReady(e:Event):Void
-	{	
+	{
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
-		
+		stage.addEventListener(MouseEvent.CLICK, clickHandler);
+
+
+		var _bg = new SpriteData(0, new Rectangle(0, 0, 1024, 1024));
+		_bg.atl
+		glStage.addDisplayObject(_bg);
+
+	}
+
+	private function clickHandler(_):Void {
 		var _x = 50;
 		var _y = 125;
-
-		for(i in 0...10)
 		for (displayObject in assetsManager.linkagesMap)
 		{
-			if (i > 0)
-				displayObject = cast displayObject.clone();
+			displayObject = cast displayObject.clone();
 			displayObject.x = _x;
 			displayObject.y = _y;
-			
+
 			_x += 50;
-			
+
 			if (_x + 50 > stage.stageWidth)
 			{
 				_x = 50;
 				_y += 100;
 			}
 
-            addTween(displayObject);
-            if (Std.is(displayObject, MovieClipData)) {
-               var mc: MovieClipData = cast displayObject;
-                // TODO кажется что-то случилось)
-                //mc.gotoAndPlay(Std.int(Math.random() * mc.timeline.framesCount - 1));
-                //mc.gotoAndPlay(0);
-            }
-			
+			addTween(displayObject);
 			glStage.addDisplayObject(displayObject);
 		}
+		_tf.text =  "Click on the screen to add an animation\ncount: " + Std.string(glStage.numChildren);
 	}
 
     private function addTween(displayObject:DisplayObjectData):Void {
