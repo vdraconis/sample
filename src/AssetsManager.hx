@@ -26,7 +26,7 @@ import swfparser.SwfParserLight;
 class AssetsManager extends EventDispatcher
 {
 	var assetsStorage:AssetsStorage;
-	var textureSotrage:TextureStorage;
+	var textureStorage:TextureStorage;
 	var textureManager:TextureManager;
 	var swfExporter:SwfExporter;
 	var swfParserLight:SwfParserLight;
@@ -35,12 +35,12 @@ class AssetsManager extends EventDispatcher
 	
 	public var linkagesMap:Map<String, DisplayObjectData> = new Map<String, DisplayObjectData>();
 	
-	public function new(textureSotrage:TextureStorage, textureManager:TextureManager) 
+	public function new(textureStorage:TextureStorage, textureManager:TextureManager)
 	{
 		super();
 		
 		this.textureManager = textureManager;
-		this.textureSotrage = textureSotrage;
+		this.textureStorage = textureStorage;
 		
 		assetsStorage = new AssetsStorage();
 		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
@@ -101,7 +101,7 @@ class AssetsManager extends EventDispatcher
 	public function createCustomSprite(atlasID:Int, textureId:Int, textureSource:TextureSource, spriteData:BitmapData, scaleX:Float = 1, scaleY:Float = 1)
 	{
 		var combinedTextureId = new TextureId(atlasID, textureId);
-		atlasGenerator.addTexture(textureSotrage, combinedTextureId, textureSource, spriteData, textureId, scaleX, scaleY);
+		atlasGenerator.addTexture(textureStorage, combinedTextureId, textureSource, spriteData, textureId, scaleX, scaleY);
 		
 		var shape = new ShapeData(combinedTextureId, new Rectangle(0, 0, spriteData.width, spriteData.height));
 		shape.transform = new Matrix();
@@ -113,19 +113,19 @@ class AssetsManager extends EventDispatcher
 	
 	public function createUIAssets()
 	{
-		var textureSoruce = createCustomAtlas(1024, 1024);
-		var atlasID = textureSotrage.getNextTextureId();
+		var textureSource = createCustomAtlas(1024, 1024);
+		var atlasID = textureStorage.getNextTextureId();
 		var textureID:Int = 0;
-		switchAtlas(textureSoruce.source);
+		switchAtlas(textureSource.source);
 		
-		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderUp.png", true), 0.5, 0.5);
-		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderEnd.png", true));
-		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_circle.png", true));
-		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderVertical.png", true));
-		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderHorizontal.png", true));
-		createCustomSprite(atlasID, textureID++, textureSoruce, Assets.getBitmapData("ui/grey_sliderRight.png", true));
-		
-		uploadAtlasData(textureSoruce);
+		createCustomSprite(atlasID, textureID++, textureSource, Assets.getBitmapData("ui/grey_sliderUp.png", true), 0.5, 0.5);
+		createCustomSprite(atlasID, textureID++, textureSource, Assets.getBitmapData("ui/grey_sliderEnd.png", true));
+		createCustomSprite(atlasID, textureID++, textureSource, Assets.getBitmapData("ui/grey_circle.png", true));
+		createCustomSprite(atlasID, textureID++, textureSource, Assets.getBitmapData("ui/grey_sliderVertical.png", true));
+		createCustomSprite(atlasID, textureID++, textureSource, Assets.getBitmapData("ui/grey_sliderHorizontal.png", true));
+		createCustomSprite(atlasID, textureID++, textureSource, Assets.getBitmapData("ui/grey_sliderRight.png", true));
+
+		uploadAtlasData(textureSource);
 		
 		//var format:TextFormat = new TextFormat("Verdana", 12, 0x333333, false);
 		//atlasGenerator.addText("Morning", format, textureID++);
@@ -138,7 +138,7 @@ class AssetsManager extends EventDispatcher
 		var swfTags = new Array<SwfPackerTag>();
 		
 		//TODO: need to reuse swfExporter and parser and use CLEAR instead of making new instance everytime
-		swfExporter = new SwfExporter(textureSotrage, textureManager);
+		swfExporter = new SwfExporter(textureStorage, textureManager);
 		swfParserLight = new SwfParserLight();
 		
 		var data:ByteArray = assetsStorage.getAsset(path).content;
