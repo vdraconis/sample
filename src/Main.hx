@@ -115,7 +115,7 @@ class Main extends Sprite
 	{
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		stage.addEventListener(MouseEvent.CLICK, clickHandler);
-		assetsManager.createUIAssets();
+		assetsManager.createBack();
 	}
 
 	private function clickHandler(_):Void {

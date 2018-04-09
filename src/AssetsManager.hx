@@ -110,7 +110,16 @@ class AssetsManager extends EventDispatcher
 		
 		return shape;
 	}
+
+
 	
+	public function createBack()
+	{
+		var path = "bg/may_9.jpg";
+		var bitmapData = Assets.getBitmapData(path, true);
+
+	}
+
 	public function createUIAssets()
 	{
 		var textureSource = createCustomAtlas(1024, 1024);
@@ -151,7 +160,8 @@ class AssetsManager extends EventDispatcher
 		
 		for (spriteData in swfParserLight.context.library.linkagesList)
 		{
-			linkagesMap[spriteData.libraryLinkage + path] = spriteData;
+			var key = path + "#" + spriteData.libraryLinkage;
+			linkagesMap[key] = spriteData;
 		}
 		
 	}
