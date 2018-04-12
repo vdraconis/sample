@@ -1,32 +1,22 @@
 package;
 
-import swfdata.SpriteData;
-import swfdata.ShapeData;
-import openfl.geom.Rectangle;
-import openfl.display.FPS;
-import by.blooddy.core.display.resource.ResourceDefinition;
-import by.blooddy.core.display.resource.ResourceDefinition;
-import ru.riot.display.gui.control.GUIDummy;
-import ru.riot.display.gui.styles.FontStyles;
-import ru.riot.display.gui.control.helpers.LabelHelper;
 import flash.text.TextField;
-import openfl.events.MouseEvent;
-import motion.easing.Linear;
-import motion.Actuate;
-import openfl.text.TextField;
-import swfdata.DisplayObjectData;
 import gl.GlStage;
+import motion.Actuate;
+import motion.easing.Linear;
+import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
 import openfl.display3D.Context3DTriangleFace;
 import openfl.events.ErrorEvent;
 import openfl.events.Event;
+import openfl.events.MouseEvent;
+import openfl.text.TextField;
 import renderer.Renderer;
 import renderer.TextureManager;
-import swfdata.MovieClipData;
+import swfdata.DisplayObjectData;
 import swfdata.atlas.TextureStorage;
-import utils.DisplayObjectUtils;
 
 @:access(openfl.display3D.Context3D)
 class Main extends Sprite
@@ -58,7 +48,7 @@ class Main extends Sprite
 		stage.stage3Ds[0].addEventListener(ErrorEvent.ERROR, onContextCreatedError);
 		stage.stage3Ds[0].requestContext3D("auto");
 
-		_tf  = LabelHelper.createLabel(FontStyles.getDynamicOpenSans(12, 0xFFFFFF));
+		_tf = new TextField();// LabelHelper.createLabel(FontStyles.getDynamicOpenSans(12, 0xFFFFFF));
 		_tf.x = 10;
 		_tf.y = 5;
 		_tf.width = 1000;
@@ -115,7 +105,7 @@ class Main extends Sprite
 	{
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
 		stage.addEventListener(MouseEvent.CLICK, clickHandler);
-		assetsManager.createBack();
+		//assetsManager.createBack();
 	}
 
 	private function clickHandler(_):Void {
