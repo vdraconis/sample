@@ -44,9 +44,9 @@ class AssetsManager extends EventDispatcher
 		
 		assetsStorage = new AssetsStorage();
 		var assetsLoader:AssetLoader = new AssetLoader(assetsStorage);
-		//assetsLoader.addToQueue("animation/a.ani");
-		//assetsLoader.addToQueue("animation/biker.ani");
-		//assetsLoader.addToQueue("animation/teslagirl.ani");
+		assetsLoader.addToQueue("animation/a.ani");
+		assetsLoader.addToQueue("animation/biker.ani");
+		assetsLoader.addToQueue("animation/teslagirl.ani");
 		//assetsLoader.addToQueue("animation/bath.animation");
 		//assetsLoader.addToQueue("animation/albion_mirabelle.animation");
 		//assetsLoader.addToQueue("animation/circus.animation");
@@ -59,14 +59,14 @@ class AssetsManager extends EventDispatcher
 		
 		
 		assetsLoader.addEventListener(Event.COMPLETE, onAssetsLoaded);
-		//assetsLoader.load();
+		assetsLoader.load();
 	}
 	
 	private function onAssetsLoaded(e:Event):Void 
 	{
-		//parseAsset("animation/a.ani");
-		//parseAsset("animation/biker.ani");
-		//parseAsset("animation/teslagirl.ani");
+		parseAsset("animation/a.ani");
+		parseAsset("animation/biker.ani");
+		parseAsset("animation/teslagirl.ani");
 		//parseAsset("animation/bath.animation");
 		//parseAsset("animation/albion_mirabelle.animation");
 		//parseAsset("animation/circus.animation");
@@ -111,15 +111,6 @@ class AssetsManager extends EventDispatcher
 		return shape;
 	}
 
-
-	
-	public function createBack()
-	{
-		var path = "bg/may_9.jpg";
-		var bitmapData = Assets.getBitmapData(path, true);
-
-	}
-
 	public function createUIAssets()
 	{
 		var textureSource = createCustomAtlas(1024, 1024);
@@ -160,7 +151,7 @@ class AssetsManager extends EventDispatcher
 		
 		for (spriteData in swfParserLight.context.library.linkagesList)
 		{
-			var key = path + "#" + spriteData.libraryLinkage;
+			var key = spriteData.libraryLinkage + path;
 			linkagesMap[key] = spriteData;
 		}
 		

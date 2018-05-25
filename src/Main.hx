@@ -1,12 +1,12 @@
 package;
 
+import openfl.display3D.Context3D;
 import flash.text.TextField;
 import gl.GlStage;
 import motion.Actuate;
 import motion.easing.Linear;
 import openfl.display.FPS;
 import openfl.display.Sprite;
-import openfl.display3D.Context3D;
 import openfl.display3D.Context3DCompareMode;
 import openfl.display3D.Context3DTriangleFace;
 import openfl.events.ErrorEvent;
@@ -15,8 +15,8 @@ import openfl.events.MouseEvent;
 import openfl.text.TextField;
 import renderer.Renderer;
 import renderer.TextureManager;
-import swfdata.DisplayObjectData;
 import swfdata.atlas.TextureStorage;
+import swfdata.DisplayObjectData;
 
 @:access(openfl.display3D.Context3D)
 class Main extends Sprite
@@ -54,6 +54,7 @@ class Main extends Sprite
 		_tf.width = 1000;
 		_tf.multiline = true;
 		_tf.height = 100;
+        _tf.textColor = 0xFFFFFF;
 		_tf.text = "Click on the screen to add an animation\n";
 		stage.addChild(_tf);
 
@@ -93,8 +94,8 @@ class Main extends Sprite
 		glStage = new GlStage(stage, context3D, textureStorage);
 		
 		assetsManager = new AssetsManager(textureStorage, textureManager);
-		//assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
-		onAssetReady(null);
+		assetsManager.addEventListener(Event.COMPLETE, onAssetReady);
+		//onAssetReady(null);
 	}
 
     private function onResize(e:Event):Void {
@@ -104,11 +105,10 @@ class Main extends Sprite
     private function onAssetReady(e:Event):Void
 	{
 		stage.addEventListener(Event.ENTER_FRAME, onUpdate);
-		stage.addEventListener(MouseEvent.CLICK, clickHandler);
-		//assetsManager.createBack();
+		stage.addEventListener(MouseEvent.CLICK, onClick);
 	}
 
-	private function clickHandler(_):Void {
+	private function onClick(_):Void {
 		var _x = 50;
 		var _y = 125;
 
