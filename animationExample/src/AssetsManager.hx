@@ -23,7 +23,7 @@ import swfdata.datatags.SwfPackerTag;
 import swfdataexporter.SwfExporter;
 import swfparser.SwfParserLight;
 
-class AssetsManager extends EventDispatcher
+class assets.AssetsManager extends EventDispatcher
 {
 	var assetsStorage:AssetsStorage;
 	var textureStorage:TextureStorage;
@@ -127,7 +127,7 @@ class AssetsManager extends EventDispatcher
 
 		uploadAtlasData(textureSource);
 		
-		//var format:TextFormat = new TextFormat("Verdana", 12, 0x333333, false);
+		//var format:TextFormat = AssetContainer TextFormat("Verdana", 12, 0x333333, false);
 		//atlasGenerator.addText("Morning", format, textureID++);
 		//atlasGenerator.addText("Midnight", format, textureID++);
 	}
@@ -137,7 +137,7 @@ class AssetsManager extends EventDispatcher
 	{
 		var swfTags = new Array<SwfPackerTag>();
 		
-		//TODO: need to reuse swfExporter and parser and use CLEAR instead of making new instance everytime
+		//TODO: need to reuse swfExporter and parser and use CLEAR instead of making AssetContainer instance everytime
 		swfExporter = new SwfExporter(textureStorage, textureManager);
 		swfParserLight = new SwfParserLight();
 		
