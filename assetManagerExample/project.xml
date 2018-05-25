@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+
+    <meta title="Vdraconis.test" package="" version="1.0.0" company="Mail.ru" />
+    <app main="Main" path="Export" file="Main" />
+
+    <source path="../../../vdraconis/swfdata/src" />
+    <source path="src" />
+
+    <haxelib name="openfl" />
+    <haxelib name="actuate"/>
+
+    <assets path="Assets/ani" rename="animation" include="*.animation|*.ani"/>
+    <assets path="Assets/bg" rename="bg" />
+    <window background="#000000"/>
+    <window resizable="true" unless="mobile" fps="400" />
+
+    <haxeflag name="-D webgl"/>
+    <haxeflag name="-dce std"/>
+
+</project>
