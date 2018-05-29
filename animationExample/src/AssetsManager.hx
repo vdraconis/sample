@@ -23,7 +23,7 @@ import swfdata.datatags.SwfPackerTag;
 import swfdataexporter.SwfExporter;
 import swfparser.SwfParserLight;
 
-class assets.AssetsManager extends EventDispatcher
+class AssetsManager extends EventDispatcher
 {
 	var assetsStorage:AssetsStorage;
 	var textureStorage:TextureStorage;

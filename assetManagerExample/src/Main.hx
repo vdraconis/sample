@@ -21,7 +21,6 @@ class Main extends Sprite
 	public function new() 
 	{
 		super();
-		
 		this.mouseChildren = false;
 		this.mouseEnabled = false;
 		
@@ -70,9 +69,9 @@ class Main extends Sprite
             var container = new AssetContainer("animation/biker.ani","x2_90");
             var displayObject:DisplayObjectData = container;
             // А если добавляем контент на стэйдж. то анимация есть
-            /* if (container.content != null)
+             if (container.content != null)
                 displayObject = container.content;
-            */
+
 
 			displayObject.x = _x;
 			displayObject.y = _y;
