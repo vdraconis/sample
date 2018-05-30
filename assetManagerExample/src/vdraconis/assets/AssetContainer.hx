@@ -13,7 +13,7 @@ class AssetContainer extends SpriteData {
 
     var _assetsManager:AssetsManager;
 
-    public function AssetContainer(resourceName:String, linkageName:String = null) {
+    public function new(resourceName:String, linkageName:String = null) {
         super();
         this.bundleName = resourceName;
         this.linkageName = linkageName;

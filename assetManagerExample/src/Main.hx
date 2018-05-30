@@ -21,6 +21,7 @@ class Main extends Sprite
 	public function new() 
 	{
 		super();
+		
 		this.mouseChildren = false;
 		this.mouseEnabled = false;
 		
@@ -71,7 +72,6 @@ class Main extends Sprite
             // А если добавляем контент на стэйдж. то анимация есть
              if (container.content != null)
                 displayObject = container.content;
-
 
 			displayObject.x = _x;
 			displayObject.y = _y;

@@ -8,7 +8,7 @@ class AssetsStorage
 	
 	public function new() 
 	{
-		super();
+		
 	}
 	
 	public function getAsset(fileName:String):BinaryAsset
