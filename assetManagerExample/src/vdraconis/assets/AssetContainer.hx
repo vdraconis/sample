@@ -13,9 +13,9 @@ class AssetContainer extends SpriteData {
 
     var _assetsManager:AssetsManager;
 
-    public function new(resourceName:String, linkageName:String = null) {
+    public function new(bundleName:String, linkageName:String = null) {
         super();
-        this.bundleName = resourceName;
+        this.bundleName = bundleName;
         this.linkageName = linkageName;
         // TODO нужен IoC для assetsManager
         _assetsManager = Scene.assetsManager;
@@ -35,7 +35,8 @@ class AssetContainer extends SpriteData {
         if (Std.is(content, MovieClipData)){
            // TODO не хочет проигрываться
             mc = cast content;
-            mc.play();
+           trace("mc.framesCount", mc.framesCount);
+            //mc.gotoAndStop(Std.int(Math.random() * mc.framesCount));
         }
     }
 

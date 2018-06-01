@@ -75,7 +75,7 @@ class AssetsManager extends EventDispatcher
                     onCompleteLoadBytes = function(_) {
                         loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onCompleteLoadBytes);
                         var bitmapData = cast (loader.content, Bitmap).bitmapData;
-                        createBack(key, bitmapData);
+                        createShapeFromBitmap(key, bitmapData);
                         finish();
                     }
                     loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onCompleteLoadBytes);
@@ -118,9 +118,9 @@ class AssetsManager extends EventDispatcher
 	}
 
 
-    public function createBack(path:String, bitmapData:BitmapData) {
+    public function createShapeFromBitmap(path:String, bitmapData:BitmapData) {
         if (linkagesMap.exists(path))
-            return linkagesMap.get(path).clone();
+            return linkagesMap[path].clone();
         var textureSource = createCustomAtlas(bitmapData.width, bitmapData.height);
         var atlasID = textureStorage.getNextTextureId();
         var textureID:Int = 0;
@@ -129,18 +129,6 @@ class AssetsManager extends EventDispatcher
         linkagesMap[path] = shape;
         uploadAtlasData(textureSource);
         return shape;
-    }
-
-    public function createBitmap(path:String) {
-        var loader = new Loader();
-        var onComplete: Dynamic -> Void;
-        onComplete = function(_) {
-            loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onComplete);
-            var bitmapData = cast (loader.content, Bitmap).bitmapData;
-            createBack(path, bitmapData);
-        }
-        loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onComplete);
-        loader.loadBytes(assetsStorage.getAsset(path).content);
     }
 
     @:access(swfdata)
