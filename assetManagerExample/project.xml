@@ -10,8 +10,8 @@
     <haxelib name="openfl" />
     <haxelib name="actuate"/>
 
-    <assets path="Assets/ani" rename="animation" include="*.animation|*.ani"/>
-    <assets path="Assets/bg" rename="bg" />
+<!--    <assets path="Assets/ani" rename="animation" include="*.animation|*.ani"/>
+    <assets path="Assets/bg" rename="bg" />-->
     <window background="#000000"/>
     <window resizable="true" unless="mobile" fps="400" />
 
