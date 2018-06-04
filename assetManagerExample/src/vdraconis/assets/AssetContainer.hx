@@ -33,10 +33,8 @@ class AssetContainer extends SpriteData {
         content = _assetsManager.linkagesMap[key].clone();
         addDisplayObject(content);
         if (Std.is(content, MovieClipData)){
-           // TODO не хочет проигрываться
             mc = cast content;
-           trace("mc.framesCount", mc.framesCount);
-            //mc.gotoAndStop(Std.int(Math.random() * mc.framesCount));
+            mc.gotoAndPlay(Std.int(Math.random() * mc.framesCount));
         }
     }
 
